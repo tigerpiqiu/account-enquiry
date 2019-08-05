@@ -3,6 +3,8 @@ package au.com.anz.service.accountenquiry.controller;
 import au.com.anz.service.accountenquiry.domain.AccountModel;
 import au.com.anz.service.accountenquiry.domain.AccountType;
 import au.com.anz.service.accountenquiry.persistence.AccountDAO;
+import au.com.anz.service.accountenquiry.service.AccountReadService;
+import au.com.anz.service.accountenquiry.service.AccountTransactionsReadService;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
@@ -18,21 +20,24 @@ import static org.mockito.BDDMockito.given;
 public class AccountEnquiryControllerUnitTest extends ControllerUnitTestBase {
 
     @Mock
-    private AccountDAO accountDAO;
+    private AccountReadService accountReadService;
+
+    @Mock
+    private AccountTransactionsReadService accountTransactionsReadService;
 
 
     @Before
     public void setUp() {
         initMocks(this);
-        AccountEnquiryController accountEnquiryController = new AccountEnquiryController(accountDAO);
+        AccountEnquiryController accountEnquiryController = new AccountEnquiryController(accountReadService, accountTransactionsReadService);
         initializeController(accountEnquiryController);
     }
 
     @Test
     public void accountsShouldBeReturnedToClientSuccessfully() throws Exception {
-        given(accountDAO.getAccounts()).willReturn(accountReadModelList());
+        given(accountReadService.getAllAccounts()).willReturn(accountReadModelList());
 
-        String expectedResponsePayload = "[{\"accountNumber\":9911,\"accountName\":\"DAVSavings001\",\"accountType\":\"SAVINGS\",\"balanceDate\":\"08-01-2019\",\"currency\":\"AUD\",\"openingAvailableBalance\":99.88}]";
+        String expectedResponsePayload = "[{\"accountNumber\":9911,\"accountName\":\"DAVSavings001\",\"accountType\":\"SAVINGS\",\"balanceDate\":\"08/01/2019\",\"currency\":\"AUD\",\"openingAvailableBalance\":99.88}]";
 
         assertSuccessfulRequestWithExpectedResponse(onGet("/accounts"), 200, expectedResponsePayload);
     }

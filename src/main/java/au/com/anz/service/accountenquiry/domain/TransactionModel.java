@@ -6,7 +6,7 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 
 @Data
-public class AccountTransactionModel {
+public class TransactionModel {
 
     private long transactionId;
 
@@ -19,6 +19,5 @@ public class AccountTransactionModel {
     private BigDecimal transactionAmount;
 
     private String transactionNarrative;
-
 
 }

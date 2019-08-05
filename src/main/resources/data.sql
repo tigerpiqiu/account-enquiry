@@ -1,5 +1,7 @@
 DROP TABLE IF EXISTS account;
 
+DROP TABLE IF EXISTS account_transaction;
+
 CREATE TABLE account (
   account_number DECIMAL(10)  NOT NULL PRIMARY KEY,
   account_name VARCHAR(100) NOT NULL,
@@ -24,8 +26,9 @@ INSERT INTO account (account_number, account_name, account_type, balance_date, c
 
 
 
-INSERT INTO account_transaction (account_number, value_date, transaction_type, transaction_amount, transaction_narrative) VALUES (585309209, '2019-06-09', 'C', ,  773.89, 'This is a test 1');
-INSERT INTO account_transaction (account_number, value_date, transaction_type, transaction_amount, transaction_narrative) VALUES (585309209, '2019-06-10', 'D', ,  43.34, 'This is a test 2');
+INSERT INTO account_transaction (account_number, value_date, transaction_type, transaction_amount, transaction_narrative) VALUES (585309209, '2019-06-09', 'C', 773.89, 'This is a test 1');
+INSERT INTO account_transaction (account_number, value_date, transaction_type, transaction_amount, transaction_narrative) VALUES (585309209, '2019-06-10', 'D', 43.34, 'This is a test 2');
 
-INSERT INTO account_transaction (account_number, value_date, transaction_type, transaction_amount, transaction_narrative) VALUES (585309210, '2019-07-09', 'C', , 10003.89, 'This is a test 1');
-INSERT INTO account_transaction (account_number, value_date, transaction_type, transaction_amount, transaction_narrative) VALUES (585309210, '2019-07-10', 'D', ,  300.34, 'This is a test 2');
+INSERT INTO account_transaction (account_number, value_date, transaction_type, transaction_amount, transaction_narrative) VALUES (585309210, '2019-07-09', 'C', 10003.89, 'This is a test 1');
+INSERT INTO account_transaction (account_number, value_date, transaction_type, transaction_amount, transaction_narrative) VALUES (585309210, '2019-07-10', 'D', 300.34, 'This is a test 2');
+

@@ -1,7 +1,9 @@
 package au.com.anz.service.accountenquiry.controller;
 
 import au.com.anz.service.accountenquiry.domain.AccountModel;
-import au.com.anz.service.accountenquiry.persistence.AccountDAO;
+import au.com.anz.service.accountenquiry.dto.AccountTransactionsDTO;
+import au.com.anz.service.accountenquiry.service.AccountReadService;
+import au.com.anz.service.accountenquiry.service.AccountTransactionsReadService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
@@ -13,7 +15,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
@@ -23,11 +24,14 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 @Api(tags = {"Account-Enquiry"}, description = " ")
 public class AccountEnquiryController {
 
-    private AccountDAO accountDAO;
+    private final AccountReadService accountReadService;
+
+    private final AccountTransactionsReadService accountTransactionsReadService;
 
     @Autowired
-    public AccountEnquiryController(AccountDAO accountDAO) {
-        this.accountDAO = accountDAO;
+    public AccountEnquiryController(AccountReadService accountReadService, AccountTransactionsReadService accountTransactionsReadService) {
+        this.accountReadService = accountReadService;
+        this.accountTransactionsReadService = accountTransactionsReadService;
     }
 
     @GetMapping(
@@ -40,7 +44,7 @@ public class AccountEnquiryController {
             @ApiResponse(code = 200, message = "Accounts are found")
     })
     public List<AccountModel> getAccounts() {
-        return this.accountDAO.getAccounts();
+        return this.accountReadService.getAllAccounts();
     }
 
 
@@ -53,8 +57,8 @@ public class AccountEnquiryController {
     @ApiResponses({
             @ApiResponse(code = 200, message = "Account transactions found")
     })
-    public List<AccountModel> getAccountTransactions(@PathVariable("accountNumber") long accountNumber) {
-        return new ArrayList<>();
+    public AccountTransactionsDTO getAccountTransactions(@PathVariable("accountNumber") long accountNumber) {
+        return this.accountTransactionsReadService.getTransactionsForAccount(accountNumber);
     }
 
 }

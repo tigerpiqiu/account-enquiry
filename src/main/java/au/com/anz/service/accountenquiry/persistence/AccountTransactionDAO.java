@@ -1,6 +1,6 @@
 package au.com.anz.service.accountenquiry.persistence;
 
-import au.com.anz.service.accountenquiry.domain.AccountTransactionModel;
+import au.com.anz.service.accountenquiry.domain.TransactionModel;
 import au.com.anz.service.accountenquiry.domain.AccountTransactionType;
 import org.perf4j.aop.Profiled;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,8 +18,9 @@ import java.util.List;
 @Repository
 public class AccountTransactionDAO {
 
-    private static final String SELECT_TRANSACTION_BY_ACCOUNT_NUMBER = "SELECT transaction_id, account_number, value_date, transaction_type, transaction_amount, transaction_narrative  "
-            + "  FROM account_transaction WHERE account_number = :accountNumber";
+    private static final String SELECT_TRANSACTIONS_BY_ACCOUNT_NUMBER =
+            "SELECT transaction_id, account_number, value_date, transaction_type, transaction_amount, transaction_narrative  "
+                    + "  FROM account_transaction WHERE account_number = :accountNumber";
 
     private final NamedParameterJdbcTemplate jdbcTemplate;
 
@@ -31,15 +32,16 @@ public class AccountTransactionDAO {
     }
 
     @Profiled
-    public List<AccountTransactionModel> getTransactionsByAccountNumber(long accountNumber) {
-        return jdbcTemplate.query(SELECT_TRANSACTION_BY_ACCOUNT_NUMBER, new MapSqlParameterSource("accountNumber", accountNumber), transactionRowMapper);
+    public List<TransactionModel> getTransactionsByAccountNumber(long accountNumber) {
+        return jdbcTemplate.query(SELECT_TRANSACTIONS_BY_ACCOUNT_NUMBER,
+                new MapSqlParameterSource("accountNumber", accountNumber), transactionRowMapper);
     }
 
-    static class AccountTransactionRowMapper implements RowMapper<AccountTransactionModel> {
+    static class AccountTransactionRowMapper implements RowMapper<TransactionModel> {
         @Override
-        public AccountTransactionModel mapRow(ResultSet rs, int rowNum) throws SQLException {
-            AccountTransactionModel transaction = new AccountTransactionModel();
-            transaction.setTransactionId(rs.getLong("account_id"));
+        public TransactionModel mapRow(ResultSet rs, int rowNum) throws SQLException {
+            TransactionModel transaction = new TransactionModel();
+            transaction.setTransactionId(rs.getLong("transaction_id"));
             transaction.setAccountNumber(rs.getLong("account_number"));
             transaction.setValueDate(convertAsLocalDate(rs.getDate("value_date")));
             transaction.setAccountTransactionType(AccountTransactionType.fromCode(rs.getString("transaction_type")));
