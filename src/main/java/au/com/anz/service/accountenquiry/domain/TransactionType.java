@@ -1,7 +1,7 @@
 package au.com.anz.service.accountenquiry.domain;
 
 
-public enum AccountTransactionType {
+public enum TransactionType {
 
     DEBIT("D"),
 
@@ -9,17 +9,17 @@ public enum AccountTransactionType {
 
     private final String code;
 
-    AccountTransactionType(final String code) {
+    TransactionType(final String code) {
         this.code = code;
     }
 
-    public static AccountTransactionType fromCode(String code) {
-        for (AccountTransactionType transactionType : AccountTransactionType.values()) {
+    public static TransactionType fromCode(String code) {
+        for (TransactionType transactionType : TransactionType.values()) {
             if (transactionType.code.equalsIgnoreCase(code)) {
                 return transactionType;
             }
         }
-        throw new IllegalStateException("AccountTransactionType not found for: " + code);
+        throw new IllegalStateException("TransactionType not found for: " + code);
     }
 
     public String getCode() {

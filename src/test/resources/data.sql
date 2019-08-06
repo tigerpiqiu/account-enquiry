@@ -5,6 +5,7 @@ DROP TABLE IF EXISTS account_transaction;
 CREATE TABLE account (
   account_number DECIMAL(10)  NOT NULL PRIMARY KEY,
   account_name VARCHAR(100) NOT NULL,
+  user_id DECIMAL(10)  NOT NULL,
   account_type VARCHAR(3) NOT NULL,
   balance_date DATE NOT NULL,
   currency VARCHAR(3) NOT NULL,

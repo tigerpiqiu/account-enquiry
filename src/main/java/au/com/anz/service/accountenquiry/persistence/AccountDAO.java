@@ -3,7 +3,6 @@ package au.com.anz.service.accountenquiry.persistence;
 import au.com.anz.service.accountenquiry.domain.AccountModel;
 import au.com.anz.service.accountenquiry.domain.AccountType;
 import au.com.anz.service.accountenquiry.exception.NotFoundException;
-import org.perf4j.aop.Profiled;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,11 +24,11 @@ public class AccountDAO {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
 
-    private static final String SELECT_ALL_ACCOUNTS = "SELECT account_number, account_name, account_type, balance_date, currency, "
-            + "opening_available_balance FROM account";
+    private static final String SELECT_ACCOUNTS_BY_USER_ID = "SELECT account_number, account_name, user_id, account_type, balance_date, "
+            + "currency, opening_available_balance FROM account WHERE user_id = :userId";
 
-    private static final String SELECT_ACCOUNT_BY_NUMBER = "SELECT account_number, account_name, account_type, balance_date, currency, "
-            + "opening_available_balance FROM account WHERE account_number = :accountNumber";
+    private static final String SELECT_ACCOUNT_BY_NUMBER = "SELECT account_number, account_name, user_id, account_type, balance_date, "
+            + "currency, opening_available_balance FROM account WHERE account_number = :accountNumber";
 
     private final NamedParameterJdbcTemplate jdbcTemplate;
 
@@ -40,12 +39,10 @@ public class AccountDAO {
         this.jdbcTemplate = jdbcTemplate;
     }
 
-    @Profiled
-    public List<AccountModel> getAccounts() {
-        return jdbcTemplate.query(SELECT_ALL_ACCOUNTS, new MapSqlParameterSource(), accountRowMapper);
+    public List<AccountModel> getAccountsByUserId(long userId) {
+        return jdbcTemplate.query(SELECT_ACCOUNTS_BY_USER_ID, new MapSqlParameterSource("userId", userId), accountRowMapper);
     }
 
-    @Profiled
     public AccountModel getAccountByAccountNumber(long accountNumber) {
         try {
             return jdbcTemplate.queryForObject(SELECT_ACCOUNT_BY_NUMBER, new MapSqlParameterSource("accountNumber", accountNumber),
@@ -62,6 +59,7 @@ public class AccountDAO {
             AccountModel accountReadModel = new AccountModel();
             accountReadModel.setAccountNumber(rs.getLong("account_number"));
             accountReadModel.setAccountName(rs.getString("account_name"));
+            accountReadModel.setUserId(rs.getLong("user_id"));
             accountReadModel.setAccountType(AccountType.fromCode(rs.getString("account_type")));
             accountReadModel.setBalanceDate(convertAsLocalDate(rs.getDate("balance_date")));
             accountReadModel.setCurrency(rs.getString("currency"));

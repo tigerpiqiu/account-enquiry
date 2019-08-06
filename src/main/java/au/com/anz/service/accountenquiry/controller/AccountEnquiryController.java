@@ -8,7 +8,6 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
-import org.perf4j.aop.Profiled;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -35,16 +34,15 @@ public class AccountEnquiryController {
     }
 
     @GetMapping(
-            value = "/accounts",
+            value = "/{userId}/accounts",
             produces = APPLICATION_JSON_VALUE
     )
-    @Profiled
-    @ApiOperation("Get all accounts")
+    @ApiOperation("Get all accounts for the user")
     @ApiResponses({
-            @ApiResponse(code = 200, message = "Accounts are found")
+            @ApiResponse(code = 200, message = "Accounts are found for the user")
     })
-    public List<AccountModel> getAccounts() {
-        return this.accountReadService.getAllAccounts();
+    public List<AccountModel> getAccountsForUser(@PathVariable("userId") long userId) {
+        return this.accountReadService.getAllAccountsForUser(userId);
     }
 
 
@@ -52,7 +50,6 @@ public class AccountEnquiryController {
             value = "/{accountNumber}/transactions",
             produces = APPLICATION_JSON_VALUE
     )
-    @Profiled
     @ApiOperation("Get all transactions made on the account")
     @ApiResponses({
             @ApiResponse(code = 200, message = "Account transactions found")

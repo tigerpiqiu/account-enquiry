@@ -14,7 +14,7 @@ public class TransactionModel {
 
     private LocalDate valueDate;
 
-    private AccountTransactionType accountTransactionType;
+    private TransactionType transactionType;
 
     private BigDecimal transactionAmount;
 

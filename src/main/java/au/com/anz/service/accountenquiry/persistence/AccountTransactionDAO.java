@@ -1,8 +1,7 @@
 package au.com.anz.service.accountenquiry.persistence;
 
 import au.com.anz.service.accountenquiry.domain.TransactionModel;
-import au.com.anz.service.accountenquiry.domain.AccountTransactionType;
-import org.perf4j.aop.Profiled;
+import au.com.anz.service.accountenquiry.domain.TransactionType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
@@ -31,7 +30,6 @@ public class AccountTransactionDAO {
         this.jdbcTemplate = jdbcTemplate;
     }
 
-    @Profiled
     public List<TransactionModel> getTransactionsByAccountNumber(long accountNumber) {
         return jdbcTemplate.query(SELECT_TRANSACTIONS_BY_ACCOUNT_NUMBER,
                 new MapSqlParameterSource("accountNumber", accountNumber), transactionRowMapper);
@@ -44,7 +42,7 @@ public class AccountTransactionDAO {
             transaction.setTransactionId(rs.getLong("transaction_id"));
             transaction.setAccountNumber(rs.getLong("account_number"));
             transaction.setValueDate(convertAsLocalDate(rs.getDate("value_date")));
-            transaction.setAccountTransactionType(AccountTransactionType.fromCode(rs.getString("transaction_type")));
+            transaction.setTransactionType(TransactionType.fromCode(rs.getString("transaction_type")));
             transaction.setTransactionAmount(rs.getBigDecimal("transaction_amount"));
             transaction.setTransactionNarrative(rs.getString("transaction_narrative"));
             return transaction;

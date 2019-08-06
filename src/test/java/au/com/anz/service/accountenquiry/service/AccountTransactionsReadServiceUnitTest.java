@@ -1,7 +1,7 @@
 package au.com.anz.service.accountenquiry.service;
 
 import au.com.anz.service.accountenquiry.domain.AccountModel;
-import au.com.anz.service.accountenquiry.domain.AccountTransactionType;
+import au.com.anz.service.accountenquiry.domain.TransactionType;
 import au.com.anz.service.accountenquiry.domain.TransactionModel;
 import au.com.anz.service.accountenquiry.dto.AccountTransactionsDTO;
 import au.com.anz.service.accountenquiry.dto.TransactionDTO;
@@ -30,7 +30,6 @@ public class AccountTransactionsReadServiceUnitTest {
 
     @Mock
     private AccountTransactionDAO accountTransactionDAO;
-
 
     @Before
     public void setupTest() {
@@ -62,7 +61,7 @@ public class AccountTransactionsReadServiceUnitTest {
     private void verifyTransaction(TransactionModel model, TransactionDTO dto) {
         assertThat(model.getTransactionId(), is(dto.getTransactionId()));
         assertThat(model.getAccountNumber(), is(dto.getAccountNumber()));
-        assertThat(model.getAccountTransactionType(), is(dto.getAccountTransactionType()));
+        assertThat(model.getTransactionType(), is(dto.getTransactionType()));
         assertThat(model.getTransactionAmount(), is(dto.getTransactionAmount()));
         assertThat(model.getValueDate(), is(dto.getValueDate()));
         assertThat(model.getTransactionNarrative(), is(dto.getTransactionNarrative()));
@@ -79,7 +78,7 @@ public class AccountTransactionsReadServiceUnitTest {
         TransactionModel transaction = new TransactionModel();
         transaction.setAccountNumber(accountNumber);
         transaction.setTransactionId(100001);
-        transaction.setAccountTransactionType(AccountTransactionType.CREDIT);
+        transaction.setTransactionType(TransactionType.CREDIT);
         transaction.setTransactionAmount(BigDecimal.valueOf(99.99));
         transaction.setValueDate(LocalDate.of(2019, 8, 8));
         transaction.setTransactionNarrative("Please confirm");

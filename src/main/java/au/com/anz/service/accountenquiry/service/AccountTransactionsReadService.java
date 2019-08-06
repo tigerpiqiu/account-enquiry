@@ -33,16 +33,18 @@ public class AccountTransactionsReadService {
 
     private AccountTransactionsDTO convertToAccountTransactionsDAO(AccountModel accountModel, List<TransactionModel> transactionModels) {
         List<TransactionDTO> transactionDTOS = transactionModels.stream().map(this::convertToTransactionDTO).collect(Collectors.toList());
-        return AccountTransactionsDTO.builder().accountNumber(accountModel.getAccountNumber())
+        return AccountTransactionsDTO.builder()
+                .accountNumber(accountModel.getAccountNumber())
                 .accountName(accountModel.getAccountName())
                 .transactions(transactionDTOS).build();
     }
 
     private TransactionDTO convertToTransactionDTO(TransactionModel model) {
-        return TransactionDTO.builder().transactionId(model.getTransactionId())
+        return TransactionDTO.builder()
+                .transactionId(model.getTransactionId())
                 .accountNumber(model.getAccountNumber())
                 .valueDate(model.getValueDate())
-                .accountTransactionType(model.getAccountTransactionType())
+                .transactionType(model.getTransactionType())
                 .transactionAmount(model.getTransactionAmount())
                 .transactionNarrative(model.getTransactionNarrative()).build();
 

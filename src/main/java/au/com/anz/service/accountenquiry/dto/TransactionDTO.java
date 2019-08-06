@@ -1,7 +1,7 @@
 package au.com.anz.service.accountenquiry.dto;
 
 import au.com.anz.service.accountenquiry.config.jackson.CustomDateSerializer;
-import au.com.anz.service.accountenquiry.domain.AccountTransactionType;
+import au.com.anz.service.accountenquiry.domain.TransactionType;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import lombok.Builder;
 import lombok.Getter;
@@ -22,7 +22,7 @@ public class TransactionDTO {
     @JsonSerialize(using = CustomDateSerializer.class)
     private LocalDate valueDate;
 
-    private AccountTransactionType accountTransactionType;
+    private TransactionType transactionType;
 
     private BigDecimal transactionAmount;
 

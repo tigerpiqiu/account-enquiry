@@ -28,11 +28,12 @@ public class AccountReadServiceUnitTest {
     }
 
     @Test
-    public void allAccountsShouldBeRetrievedSuccessfully() {
+    public void allAccountsForUserShouldBeRetrievedSuccessfully() {
+        long userId = 998877;
         List<AccountModel> accountModels = accountModels();
-        given(accountDAO.getAccounts()).willReturn(accountModels);
+        given(accountDAO.getAccountsByUserId(userId)).willReturn(accountModels);
 
-        List<AccountModel> retrievedAccounts = accountReadService.getAllAccounts();
+        List<AccountModel> retrievedAccounts = accountReadService.getAllAccountsForUser(userId);
 
         assertThat(retrievedAccounts, is(accountModels));
     }
@@ -40,6 +41,7 @@ public class AccountReadServiceUnitTest {
     private List<AccountModel> accountModels() {
         AccountModel accountModel = new AccountModel();
         accountModel.setAccountNumber(1001);
+        accountModel.setUserId(998877);
 
         return Collections.singletonList(accountModel);
     }

@@ -17,7 +17,7 @@ public class AccountReadService {
         this.accountDAO = accountDAO;
     }
 
-    public List<AccountModel> getAllAccounts() {
-        return this.accountDAO.getAccounts();
+    public List<AccountModel> getAllAccountsForUser(long userId) {
+        return this.accountDAO.getAccountsByUserId(userId);
     }
 }

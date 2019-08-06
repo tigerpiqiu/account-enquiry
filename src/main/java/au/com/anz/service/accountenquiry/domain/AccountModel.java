@@ -14,6 +14,8 @@ public class AccountModel {
 
     private String accountName;
 
+    private long userId;
+
     private AccountType accountType;
 
     @JsonSerialize(using = CustomDateSerializer.class)
